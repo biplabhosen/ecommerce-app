@@ -19,6 +19,21 @@ return [
     ],
 
     /*
+    |
+    | Passport configuration values loaded from the environment.  These
+    | are used inside controllers when building the authorization URL for
+    | third-party clients or when performing token requests on behalf of
+    | the user.  Storing them in the environment helps keep secrets
+    | out of source control.
+    |
+    */
+    'passport' => [
+        'client_id' => env('PASSPORT_CLIENT_ID'),
+        'client_secret' => env('PASSPORT_CLIENT_SECRET'),
+        'redirect_uri' => env('PASSPORT_CLIENT_REDIRECT_URI'),
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
@@ -39,6 +54,12 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+            // the `hash` option should be false for Authorization Code Grant
+            'hash' => false,
         ],
     ],
 
