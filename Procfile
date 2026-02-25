@@ -1,1 +1,1 @@
-web: php-fpm
+web: railpack serve
