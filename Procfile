@@ -1,1 +1,1 @@
-web: frankenphp -S 0.0.0.0:${PORT} -t public
+web: frankenphp -H 0.0.0.0 -P $PORT public/
