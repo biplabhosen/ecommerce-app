@@ -1,1 +1,1 @@
-web: railpack serve
+web: vendor/bin/frankenphp -S 0.0.0.0:$PORT -t public
