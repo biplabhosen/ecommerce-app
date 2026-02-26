@@ -21,6 +21,9 @@ Implement Single Sign-On where:
 
 - Passport-enabled API user endpoint: `GET /api/user` protected by `auth:api`.
 - Authorization consent screen view under `resources/views/passport/authorize.blade.php`.
+- Custom Passport Client model (`app/Models/Passport/Client.php`) with trusted-app logic:
+  - show consent first time
+  - auto-approve trusted internal apps on next authorizations
 - Professional landing page (`resources/views/welcome.blade.php`) with SSO overview and test credentials.
 - Deterministic test account seeding in `database/seeders/DatabaseSeeder.php`:
   - Email: `biplobhosen214@gmail.com`
@@ -52,6 +55,9 @@ Set at minimum:
 ```dotenv
 APP_URL=http://localhost:8000
 SESSION_DRIVER=database
+PASSPORT_AUTO_APPROVE_TRUSTED_CLIENTS=true
+PASSPORT_TRUSTED_CLIENT_IDS=
+PASSPORT_TRUSTED_CLIENT_NAMES=foodpanda-app
 ```
 
 ### 2) foodpanda (`.env`)
@@ -110,12 +116,19 @@ OAUTH_SERVER_URL=http://localhost:8000
 2. Foodpanda creates a random `state`, stores it in session, and redirects to:
    - `ecommerce/oauth/authorize?...`
 3. User logs in on ecommerce (if not logged in).
-4. Ecommerce shows consent page and user approves.
+4. Ecommerce shows consent page and user approves (first authorization).
 5. Ecommerce redirects back to foodpanda callback with `code` and `state`.
 6. Foodpanda validates `state`.
 7. Foodpanda exchanges `code` at ecommerce `/oauth/token` for `access_token`.
 8. Foodpanda calls ecommerce `/api/user` with bearer token.
 9. Foodpanda creates/updates local user and logs in user locally.
+
+### Consent Rules
+
+- Not logged in at ecommerce: user is redirected to ecommerce login page.
+- Logged in at ecommerce:
+  - first authorization: consent page is shown
+  - subsequent authorization for trusted app: auto-approved
 
 ## Test Credentials
 

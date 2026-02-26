@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Passport\Client as PassportClient;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 use Carbon\Carbon;
 
@@ -24,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
+        Passport::useClientModel(PassportClient::class);
 
         // Register Passport routes necessary for issuing tokens, revoking, clients, etc.
         // the package automatically registers its routes in PassportServiceProvider but

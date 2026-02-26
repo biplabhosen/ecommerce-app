@@ -43,4 +43,26 @@ return [
 
     'connection' => env('PASSPORT_CONNECTION'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Trusted Internal Clients
+    |--------------------------------------------------------------------------
+    |
+    | These clients will skip the consent screen after the first successful
+    | authorization grant. Add client IDs or client names from oauth_clients.
+    |
+    */
+
+    'auto_approve_trusted_clients' => env('PASSPORT_AUTO_APPROVE_TRUSTED_CLIENTS', true),
+
+    'trusted_client_ids' => array_values(array_filter(array_map(
+        'trim',
+        explode(',', (string) env('PASSPORT_TRUSTED_CLIENT_IDS', ''))
+    ))),
+
+    'trusted_client_names' => array_values(array_filter(array_map(
+        'trim',
+        explode(',', (string) env('PASSPORT_TRUSTED_CLIENT_NAMES', 'foodpanda-app'))
+    ))),
+
 ];
