@@ -57,3 +57,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## Project Documentation
+
+For the implemented multi-app SSO (ecommerce Passport server + foodpanda OAuth client), see:
+
+- `docs/SSO_IMPLEMENTATION.md`
