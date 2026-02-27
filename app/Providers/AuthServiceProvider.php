@@ -35,9 +35,12 @@ class AuthServiceProvider extends ServiceProvider
         // Authorization Code Grant is enabled by default when you create a client with
         // `php artisan passport:client --personal=false --password=false`.
 
-        // token expiration configuration (example values, read from env if needed)
-        Passport::tokensExpireIn(Carbon::now()->addDays(env('PASSPORT_TOKEN_EXPIRES', 15)));
-        Passport::refreshTokensExpireIn(Carbon::now()->addDays(env('PASSPORT_REFRESH_TOKEN_EXPIRES', 30)));
+        // Cast env values defensively; Railway variables are always strings and may be empty.
+        $tokenTtlDays = (int) env('PASSPORT_TOKEN_EXPIRES', 15);
+        $refreshTokenTtlDays = (int) env('PASSPORT_REFRESH_TOKEN_EXPIRES', 30);
+
+        Passport::tokensExpireIn(Carbon::now()->addDays($tokenTtlDays > 0 ? $tokenTtlDays : 15));
+        Passport::refreshTokensExpireIn(Carbon::now()->addDays($refreshTokenTtlDays > 0 ? $refreshTokenTtlDays : 30));
 
         // It's a good practice to limit scopes here or configure them elsewhere.
         // Passport::tokensCan([...]);
